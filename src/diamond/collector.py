@@ -165,7 +165,10 @@ class Collector(object):
         Create a new instance of the Collector class
         """
         # Initialize Logger
-        logging.captureWarnings(True)
+        try:
+            logging.captureWarnings(True)
+        except AttributeError:
+            pass
         self.log = logging.getLogger('diamond')
         # Initialize Members
         if name is None:
@@ -234,7 +237,7 @@ class Collector(object):
                 and self.config.get('metrics_blacklist', None)):
             raise DiamondException(
                 'Both metrics_whitelist and metrics_blacklist specified ' +
-                'in file %s' % configfile)
+                'in file %s' % self.configfile)
 
         if self.config.get('metrics_whitelist', None):
             self.config['metrics_whitelist'] = re.compile(
